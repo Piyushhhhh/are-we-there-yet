@@ -26,11 +26,13 @@ A modern, intuitive travel planning application built with React and TypeScript 
   - Activities & Entertainment
 - Visual budget distribution charts
 - Cost of living adjustments by city
+- Real-time currency exchange rates
 
 ### 🗺️ Comprehensive Trip Planning
 - Detailed itineraries with day-by-day activities
 - Popular attractions with:
-  - High-quality images
+  - High-quality images and descriptions
+  - Category-based organization
   - Ratings and reviews
   - Estimated visit durations
   - Entrance fees
@@ -46,6 +48,7 @@ A modern, intuitive travel planning application built with React and TypeScript 
   - Best times to visit
   - Cost estimates
 - Category-based image galleries
+- Smart fallback images by category
 
 ## 🖥️ Screenshots & Features
 
@@ -58,6 +61,7 @@ A modern, intuitive travel planning application built with React and TypeScript 
 - Quick search functionality with autocomplete
 - Popular destinations showcase
 - From and To destination fields
+- Real-time suggestions as you type
 
 ### Budget Planning Interface
 <div align="center">
@@ -68,6 +72,7 @@ A modern, intuitive travel planning application built with React and TypeScript 
 - Multi-currency support
 - Smart budget distribution
 - Real-time currency conversion
+- Visual cost breakdown
 
 ### Trip Details & Attractions
 <div align="center">
@@ -75,10 +80,24 @@ A modern, intuitive travel planning application built with React and TypeScript 
 </div>
 
 - Comprehensive trip overview
-- Popular attractions with images and ratings
-- Day-by-day itinerary planning
 - Transport and accommodation details
 - Cost breakdown visualization
+- Day-by-day itinerary planning
+
+### Popular Attractions View
+<div align="center">
+  <img src="client/public/assets/screenshots/attraction.png" alt="Attractions" width="800px" />
+</div>
+
+- Category-based attraction cards
+- High-quality destination images
+- Detailed information for each attraction:
+  - Opening hours
+  - Entrance fees
+  - Ratings and reviews
+  - Visit duration estimates
+- Visual category tags
+- Interactive card design
 
 ## 🎯 AI Features in Detail
 
@@ -96,9 +115,13 @@ A modern, intuitive travel planning application built with React and TypeScript 
 
 ### 3. Attraction Recommendations
 - Category-based suggestions
-- Dynamic image loading
-- Fallback image system
+- Dynamic image loading with smart fallbacks
 - Rating and pricing information
+- Intelligent categorization:
+  - Culture & Museums
+  - Nature & Parks
+  - Architecture & Landmarks
+  - Shopping & Markets
 
 ### 4. Itinerary Generation
 - Time-optimized schedules
@@ -117,7 +140,7 @@ A modern, intuitive travel planning application built with React and TypeScript 
 - **APIs & Services:**
   - 🌐 GeoDB Cities API for destination data
   - 💱 Exchange Rate API for currency conversion
-  - 🖼️ Unsplash API for destination images
+  - 🖼️ Dynamic image loading with fallback system
   - 🗺️ Maps integration for location visualization
 
 ## 🚀 Getting Started
@@ -154,34 +177,6 @@ npm start
 
 Visit `http://localhost:3000` to see the application in action!
 
-## 🎯 Core Features in Detail
-
-### 1. Destination Search
-- Semantic search with typo tolerance
-- Rich destination data including:
-  - City information
-  - Country details
-  - Popular attractions
-  - Local currency
-
-### 2. Budget Management
-- Smart budget distribution
-- Cost of living adjustments
-- Currency conversion
-- Visual budget breakdowns
-
-### 3. Itinerary Planning
-- AI-powered activity suggestions
-- Time-optimized schedules
-- Popular attractions integration
-- Local transport options
-
-### 4. Trip Details View
-- Comprehensive trip overview
-- Interactive maps
-- Weather forecasts
-- Local recommendations
-
 ## 🤝 Contributing
 
 We welcome contributions! Here's how you can help:
@@ -207,9 +202,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- [Unsplash](https://unsplash.com) for beautiful travel images
 - [RapidAPI](https://rapidapi.com) for GeoDB Cities API
 - [ExchangeRate-API](https://www.exchangerate-api.com) for currency conversion
+- All contributors and users of the application
 
 ## 📫 Contact
 
