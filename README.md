@@ -86,18 +86,22 @@ A modern, intuitive travel planning application built with React and TypeScript 
 
 ### Popular Attractions View
 <div align="center">
-  <img src="client/public/assets/screenshots/attraction.png" alt="Attractions" width="800px" />
+  <img src="./client/public/assets/screenshots/attraction.png" alt="Popular Attractions" width="800px" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
 </div>
 
-- Category-based attraction cards
-- High-quality destination images
-- Detailed information for each attraction:
-  - Opening hours
-  - Entrance fees
-  - Ratings and reviews
-  - Visit duration estimates
-- Visual category tags
-- Interactive card design
+#### Key Features:
+- **Category-based Cards**: Organized view of city attractions by type
+- **Rich Media**: High-quality destination images with smart fallbacks
+- **Detailed Information**:
+  - ⏰ Opening hours and best visit times
+  - 💰 Entrance fees and pricing
+  - ⭐ Visitor ratings and reviews
+  - ⌛ Estimated visit duration
+- **Visual Elements**:
+  - Color-coded category tags
+  - Interactive hover effects
+  - Responsive card layout
+  - Accessibility-friendly design
 
 ## 🎯 AI Features in Detail
 
