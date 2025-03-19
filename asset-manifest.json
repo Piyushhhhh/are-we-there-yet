@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/are-we-there-yet/static/css/main.71c65117.css",
+    "main.js": "/are-we-there-yet/static/js/main.139d78dc.js",
+    "index.html": "/are-we-there-yet/index.html",
+    "main.71c65117.css.map": "/are-we-there-yet/static/css/main.71c65117.css.map",
+    "main.139d78dc.js.map": "/are-we-there-yet/static/js/main.139d78dc.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.71c65117.css",
+    "static/js/main.139d78dc.js"
+  ]
+}
