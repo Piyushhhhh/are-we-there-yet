@@ -5,6 +5,7 @@ import { searchTransportOptions, TransportOption, generateSurpriseTrip } from '.
 import { getRecommendationsForBudget } from '../utils/budgetUtils';
 import TripDetailView from './TripDetailView';
 import debounce from 'lodash/debounce';
+import { getDestinationRecommendations, getSuggestedDuration } from '../utils/aiRecommendations';
 
 interface ExchangeRates {
   [key: string]: number;
@@ -36,6 +37,7 @@ interface TravelOptions {
   isReturn: boolean;
   departureDate: string;
   returnDate?: string;
+  duration?: number;
   preferences: TravelPreferences;
 }
 
@@ -49,8 +51,9 @@ interface Recommendation {
     food: number;
     total: number;
   };
-  confidence: number;
+  matchScore: number;
   tags: string[];
+  bestTimeToVisit: string[];
 }
 
 const TravelPlanner: React.FC = () => {
@@ -280,29 +283,61 @@ const TravelPlanner: React.FC = () => {
       return;
     }
 
-    setIsProcessing(true);
-    setError(null);
-    
+    setIsLoading(true);
     try {
+      // Convert budget string to number
       const budgetValue = parseFloat(options.budget);
-      const recs = await getRecommendationsForBudget(
-        options.fromCity,
+      if (isNaN(budgetValue)) {
+        throw new Error('Invalid budget value');
+      }
+
+      // Get AI-powered recommendations
+      const recommendations = getDestinationRecommendations(
         budgetValue,
-        options.isReturn ? 14 : 7,
-        {
-          maxFlightBudget: budgetValue * (options.isReturn ? 0.3 : 0.4),
-          preferredRegions: options.preferences.climate !== 'any' ? [options.preferences.climate] : undefined
-        }
+        options.fromCity,
+        [], // preferences can be added later
+        options.duration || 7
       );
-      setRecommendations(recs);
+
+      // Update recommendations state
+      setRecommendations(recommendations.map(rec => ({
+        city: rec.city,
+        transportOptions: [], // You can fetch real transport options here
+        budgetBreakdown: rec.costBreakdown,
+        matchScore: rec.matchScore,
+        tags: rec.tags,
+        bestTimeToVisit: rec.bestTimeToVisit
+      })));
+
       setShowRecommendations(true);
-      setShowResults(false);
-    } catch (err) {
-      setError('Error getting recommendations. Please try again.');
-      console.error('Error:', err);
+    } catch (error) {
+      console.error('Error getting recommendations:', error);
+      setError('Failed to get recommendations. Please try again.');
     } finally {
-      setIsProcessing(false);
+      setIsLoading(false);
     }
+  };
+
+  const handleRecommendationClick = (rec: Recommendation) => {
+    // Create a default transport option if none exists
+    const defaultTransport: TransportOption = {
+      type: 'flight',
+      provider: 'Default Airline',
+      price: rec.budgetBreakdown.transport,
+      currency: options.currency,
+      duration: '3h',
+      departure: new Date().toISOString(),
+      arrival: new Date(Date.now() + 3 * 60 * 60 * 1000).toISOString(),
+      details: {
+        flightNumber: 'N/A',
+        terminal: 'TBD',
+        gate: 'TBD',
+        class: 'Economy'
+      }
+    };
+
+    setSelectedRecommendation(rec);
+    setSelectedTransportForDetail(rec.transportOptions[0] || defaultTransport);
   };
 
   return (
@@ -623,60 +658,60 @@ const TravelPlanner: React.FC = () => {
       {/* Show recommendations */}
       {showRecommendations && recommendations.length > 0 && (
         <div className="mt-8">
-          <h3 className="text-2xl font-bold mb-4">Recommended Destinations</h3>
+          <h3 className="text-2xl font-bold mb-4">AI-Powered Recommendations</h3>
           <div className="space-y-6">
-            {recommendations.map((rec, index) => (
+            {recommendations.map((rec) => (
               <div
                 key={rec.city.id}
-                className="p-6 border rounded-lg hover:border-blue-500 transition-colors cursor-pointer"
-                onClick={() => {
-                  setSelectedRecommendation(rec);
-                  setSelectedTransportForDetail(rec.transportOptions[0]);
-                }}
+                className="p-6 border rounded-lg hover:border-blue-500 transition-colors cursor-pointer bg-white shadow-sm hover:shadow-md"
+                onClick={() => handleRecommendationClick(rec)}
               >
-                <div className="flex justify-between items-start mb-4">
+                <div className="flex justify-between items-start">
                   <div>
                     <h4 className="text-xl font-semibold">{rec.city.city}, {rec.city.country}</h4>
-                    <div className="flex gap-2 mt-2">
-                      {rec.tags.map(tag => (
-                        <span
-                          key={tag}
-                          className="px-2 py-1 bg-gray-100 text-sm rounded-full text-gray-700"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                    <p className="text-gray-600 mt-1">Match Score: {Math.round(rec.matchScore)}%</p>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-green-600">
-                      ${rec.budgetBreakdown.total.toFixed(0)}
-                    </div>
-                    <div className="text-sm text-gray-500">total estimated cost</div>
+                    <p className="text-lg font-semibold text-green-600">
+                      ${rec.budgetBreakdown.total.toFixed(2)}
+                    </p>
+                    <p className="text-sm text-gray-500">Total Cost</p>
+                  </div>
+                </div>
+                
+                <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="bg-blue-50 p-3 rounded">
+                    <p className="text-sm text-gray-600">Accommodation</p>
+                    <p className="font-semibold">${rec.budgetBreakdown.accommodation.toFixed(2)}</p>
+                  </div>
+                  <div className="bg-green-50 p-3 rounded">
+                    <p className="text-sm text-gray-600">Food</p>
+                    <p className="font-semibold">${rec.budgetBreakdown.food.toFixed(2)}</p>
+                  </div>
+                  <div className="bg-yellow-50 p-3 rounded">
+                    <p className="text-sm text-gray-600">Transport</p>
+                    <p className="font-semibold">${rec.budgetBreakdown.transport.toFixed(2)}</p>
+                  </div>
+                  <div className="bg-purple-50 p-3 rounded">
+                    <p className="text-sm text-gray-600">Activities</p>
+                    <p className="font-semibold">${rec.budgetBreakdown.activities.toFixed(2)}</p>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-4 gap-4 mt-4">
-                  <div>
-                    <div className="text-lg font-semibold">${rec.budgetBreakdown.transport.toFixed(0)}</div>
-                    <div className="text-sm text-gray-600">Transport</div>
+                <div className="mt-4">
+                  <div className="flex flex-wrap gap-2">
+                    {rec.tags.map((tag, index) => (
+                      <span
+                        key={index}
+                        className="px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded"
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
-                  <div>
-                    <div className="text-lg font-semibold">${rec.budgetBreakdown.accommodation.toFixed(0)}</div>
-                    <div className="text-sm text-gray-600">Accommodation</div>
-                  </div>
-                  <div>
-                    <div className="text-lg font-semibold">${rec.budgetBreakdown.food.toFixed(0)}</div>
-                    <div className="text-sm text-gray-600">Food</div>
-                  </div>
-                  <div>
-                    <div className="text-lg font-semibold">${rec.budgetBreakdown.activities.toFixed(0)}</div>
-                    <div className="text-sm text-gray-600">Activities</div>
-                  </div>
-                </div>
-
-                <div className="mt-4 text-sm text-gray-500">
-                  {rec.transportOptions.length} transport options available
+                  <p className="text-sm text-gray-600 mt-2">
+                    Best time to visit: {rec.bestTimeToVisit.join(', ')}
+                  </p>
                 </div>
               </div>
             ))}

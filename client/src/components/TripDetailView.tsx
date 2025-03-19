@@ -2,6 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { City } from '../utils/locationUtils';
 import { TransportOption } from '../utils/travelUtils';
 
+// Import default images
+const defaultImages = {
+  museum: '/assets/images/museum.jpg',
+  park: '/assets/images/park.jpg',
+  cathedral: '/assets/images/cathedral.jpg',
+  market: '/assets/images/market.jpg',
+  fallback: '/assets/images/placeholder.jpg'
+};
+
 interface Attraction {
   name: string;
   description: string;
@@ -33,6 +42,7 @@ const TripDetailView: React.FC<TripDetailViewProps> = ({
 }) => {
   const [attractions, setAttractions] = useState<Attraction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [imageErrors, setImageErrors] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     // In a real app, this would be an API call to get attractions
@@ -116,6 +126,30 @@ const TripDetailView: React.FC<TripDetailViewProps> = ({
       ]
     }
   ];
+
+  const handleImageError = (attractionId: string) => {
+    setImageErrors(prev => ({ ...prev, [attractionId]: true }));
+  };
+
+  const getAttractionImage = (attraction: { name: string; category: string }) => {
+    if (imageErrors[attraction.name]) {
+      // If image failed to load, use category-based fallback
+      const category = attraction.category.toLowerCase();
+      if (category.includes('culture') || category.includes('museum')) {
+        return defaultImages.museum;
+      } else if (category.includes('nature') || category.includes('park')) {
+        return defaultImages.park;
+      } else if (category.includes('architecture') || category.includes('cathedral')) {
+        return defaultImages.cathedral;
+      } else if (category.includes('shopping') || category.includes('market')) {
+        return defaultImages.market;
+      }
+      return defaultImages.fallback;
+    }
+    
+    // Try to load dynamic image first
+    return `https://source.unsplash.com/800x600/?${city.city},${attraction.category.toLowerCase()}`;
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
@@ -219,11 +253,14 @@ const TripDetailView: React.FC<TripDetailViewProps> = ({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {attractions.map((attraction, index) => (
                     <div key={index} className="border rounded-lg overflow-hidden">
-                      <img
-                        src={attraction.imageUrl}
-                        alt={attraction.name}
-                        className="w-full h-48 object-cover"
-                      />
+                      <div className="aspect-w-16 aspect-h-9">
+                        <img
+                          src={getAttractionImage(attraction)}
+                          alt={attraction.name}
+                          className="w-full h-48 object-cover"
+                          onError={() => handleImageError(attraction.name)}
+                        />
+                      </div>
                       <div className="p-4">
                         <div className="flex justify-between items-start mb-2">
                           <h4 className="text-lg font-bold">{attraction.name}</h4>
