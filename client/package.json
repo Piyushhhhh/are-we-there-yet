@@ -2,6 +2,7 @@
   "name": "are-we-there-yet",
   "version": "1.0.0",
   "private": true,
+  "homepage": "https://piyushhhhh.github.io/are-we-there-yet",
   "dependencies": {
     "@types/lodash": "^4.17.16",
     "@types/node": "^20.11.28",
@@ -16,10 +17,13 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.18",
+    "gh-pages": "^6.3.0",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build -e .",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
