@@ -3,6 +3,7 @@ import { getExchangeRates, convertCurrency } from '../utils/currencyUtils';
 import { searchCitiesWithCache, City } from '../utils/locationUtils';
 import { searchTransportOptions, TransportOption, generateSurpriseTrip } from '../utils/travelUtils';
 import { getRecommendationsForBudget } from '../utils/budgetUtils';
+import TripDetailView from './TripDetailView';
 import debounce from 'lodash/debounce';
 
 interface ExchangeRates {
@@ -86,6 +87,8 @@ const TravelPlanner: React.FC = () => {
   const [showResults, setShowResults] = useState(false);
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [showRecommendations, setShowRecommendations] = useState(false);
+  const [selectedRecommendation, setSelectedRecommendation] = useState<Recommendation | null>(null);
+  const [selectedTransportForDetail, setSelectedTransportForDetail] = useState<TransportOption | null>(null);
 
   const fromInputRef = useRef<HTMLInputElement>(null);
   const toInputRef = useRef<HTMLInputElement>(null);
@@ -627,10 +630,8 @@ const TravelPlanner: React.FC = () => {
                 key={rec.city.id}
                 className="p-6 border rounded-lg hover:border-blue-500 transition-colors cursor-pointer"
                 onClick={() => {
-                  setOptions(prev => ({ ...prev, toCity: rec.city }));
-                  setTransportOptions(rec.transportOptions);
-                  setShowRecommendations(false);
-                  setShowResults(true);
+                  setSelectedRecommendation(rec);
+                  setSelectedTransportForDetail(rec.transportOptions[0]);
                 }}
               >
                 <div className="flex justify-between items-start mb-4">
@@ -681,6 +682,19 @@ const TravelPlanner: React.FC = () => {
             ))}
           </div>
         </div>
+      )}
+
+      {/* Add TripDetailView */}
+      {selectedRecommendation && selectedTransportForDetail && (
+        <TripDetailView
+          city={selectedRecommendation.city}
+          transportOption={selectedTransportForDetail}
+          budgetBreakdown={selectedRecommendation.budgetBreakdown}
+          onClose={() => {
+            setSelectedRecommendation(null);
+            setSelectedTransportForDetail(null);
+          }}
+        />
       )}
     </div>
   );
