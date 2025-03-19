@@ -2,7 +2,9 @@
 
 A modern, intuitive travel planning application built with React and TypeScript that helps users plan their perfect trip by providing intelligent destination recommendations, detailed budget breakdowns, and comprehensive itineraries.
 
-![Travel Planner Hero](https://source.unsplash.com/1600x900/?travel,planning)
+<div align="center">
+  <img src="client/public/assets/screenshots/hero.png" alt="Travel Planner Hero" width="100%" />
+</div>
 
 ## ✨ Features
 
@@ -36,22 +38,24 @@ A modern, intuitive travel planning application built with React and TypeScript 
 ## 🖥️ Screenshots & Features
 
 ### Home Screen & Destination Search
-![Home Screen](https://source.unsplash.com/800x400/?travel,app)
+<div align="center">
+  <img src="client/public/assets/screenshots/home.png" alt="Home Screen" width="800px" />
+</div>
+
 - Clean, modern interface
-- Quick search functionality
+- Quick search functionality with autocomplete
 - Popular destinations showcase
+- From and To destination fields
 
 ### Budget Planning Interface
-![Budget Planning](https://source.unsplash.com/800x400/?budget,planning)
-- Interactive budget slider
-- Currency conversion
-- Cost breakdown visualization
+<div align="center">
+  <img src="client/public/assets/screenshots/budget.png" alt="Budget Planning" width="800px" />
+</div>
 
-### Trip Details & Itinerary
-![Trip Details](https://source.unsplash.com/800x400/?itinerary,travel)
-- Day-by-day planning
-- Attraction cards with images
-- Time and cost estimates
+- Interactive budget input
+- Multi-currency support
+- Smart budget distribution
+- Real-time currency conversion
 
 ## 🛠️ Tech Stack
 
