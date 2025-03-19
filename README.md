@@ -57,6 +57,17 @@ A modern, intuitive travel planning application built with React and TypeScript 
 - Smart budget distribution
 - Real-time currency conversion
 
+### Trip Details & Itinerary
+<div align="center">
+  <img src="client/public/assets/screenshots/details.png" alt="Trip Details" width="800px" />
+</div>
+
+- Comprehensive trip overview
+- Popular attractions with images and ratings
+- Day-by-day itinerary planning
+- Transport and accommodation details
+- Cost breakdown visualization
+
 ## 🛠️ Tech Stack
 
 - **Frontend:**
