@@ -8,10 +8,14 @@ A modern, intuitive travel planning application built with React and TypeScript 
 
 ## ✨ Features
 
-### 🎯 Smart Destination Search
-- Intelligent autocomplete for cities worldwide
-- Real-time suggestions as you type
-- Detailed city information including country and region
+### 🎯 Smart AI-Powered Recommendations
+- Intelligent destination matching based on your budget
+- Smart cost analysis and breakdown
+- Personalized travel duration suggestions
+- Match scoring system considering:
+  - Budget optimization (50%)
+  - Duration suitability (30%)
+  - Preference matching (20%)
 
 ### 💰 Budget Planning & Analysis
 - Multi-currency support with real-time conversion
@@ -21,19 +25,27 @@ A modern, intuitive travel planning application built with React and TypeScript 
   - Food & Dining
   - Activities & Entertainment
 - Visual budget distribution charts
+- Cost of living adjustments by city
 
 ### 🗺️ Comprehensive Trip Planning
 - Detailed itineraries with day-by-day activities
-- Popular attractions and must-visit places
-- Estimated visit durations and costs
+- Popular attractions with:
+  - High-quality images
+  - Ratings and reviews
+  - Estimated visit durations
+  - Entrance fees
+  - Best times to visit
 - Local transportation options
-- Weather forecasts and best times to visit
+- Weather forecasts
 
-### 🎲 Surprise Mode
-- Spontaneous trip suggestions
-- Budget-optimized destinations
-- Adventure level customization
-- Off-the-beaten-path recommendations
+### 🎲 Destination Discovery
+- City categorization (Budget, Moderate, Luxury)
+- Rich city information including:
+  - Popular attractions
+  - Local culture
+  - Best times to visit
+  - Cost estimates
+- Category-based image galleries
 
 ## 🖥️ Screenshots & Features
 
@@ -57,7 +69,7 @@ A modern, intuitive travel planning application built with React and TypeScript 
 - Smart budget distribution
 - Real-time currency conversion
 
-### Trip Details & Itinerary
+### Trip Details & Attractions
 <div align="center">
   <img src="client/public/assets/screenshots/details.png" alt="Trip Details" width="800px" />
 </div>
@@ -67,6 +79,32 @@ A modern, intuitive travel planning application built with React and TypeScript 
 - Day-by-day itinerary planning
 - Transport and accommodation details
 - Cost breakdown visualization
+
+## 🎯 AI Features in Detail
+
+### 1. Smart Destination Matching
+- Budget-based filtering
+- Cost of living adjustments
+- Match score calculation
+- Preference consideration
+
+### 2. Cost Analysis
+- City tier categorization (Budget/Moderate/Luxury)
+- Daily cost calculations
+- Budget optimization
+- Flexible duration suggestions
+
+### 3. Attraction Recommendations
+- Category-based suggestions
+- Dynamic image loading
+- Fallback image system
+- Rating and pricing information
+
+### 4. Itinerary Generation
+- Time-optimized schedules
+- Activity categorization
+- Duration management
+- Meal time considerations
 
 ## 🛠️ Tech Stack
 
